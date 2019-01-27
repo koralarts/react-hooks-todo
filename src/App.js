@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import Form from './Form'
 import Task from './Task'
 import './App.css'
 
 const App = () => {
   const [tasks, setTasks] = useState([])
-  const [taskName, setTaskName] = useState('')
 
   const toggleTask = (index) => {
     const task = tasks[index]
@@ -23,17 +23,13 @@ const App = () => {
     ...tasks.slice(index + 1)
   ])
 
-  const addTask = e => {
-    e.preventDefault()
-    setTasks([
-      ...tasks,
-      {
-        name: taskName,
-        completed: false
-      }
-    ])
-    setTaskName('')
-  }
+  const addTask = name => setTasks([
+    ...tasks,
+    {
+      name,
+      completed: false
+    }
+  ])
 
   const markAllAsDone = () => setTasks(tasks.map(task => ({
     ...task,
@@ -81,21 +77,7 @@ const App = () => {
         )}
       </ul>
 
-      <form name="add-task" onSubmit={addTask}>
-        <label>Add task:</label>
-        <input
-          type="text"
-          value={taskName}
-          placeholder="ie. Go shopping, Take out the trash"
-          onChange={event => setTaskName(event.target.value)}
-          autoFocus
-        />
-        <input
-          type="submit"
-          disabled={!taskName}
-          value="Add Task"
-        />
-      </form>
+      <Form onSubmit={addTask} />
     </div>
   )
 }
